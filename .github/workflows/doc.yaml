@@ -21,7 +21,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
 
       - shell: pwsh
-        run: cargo doc --document-private-items
+        run: cargo doc --document-private-items --no-deps
 
       - shell: pwsh
         run: |
