@@ -1,3 +1,7 @@
+//! OCR-lang is an interpreter for OCR Exam Reference, the pseudocode found in
+//! OCR Computer Science exams, at GCSE and A-Level.
+//! At some point in the future, I may try and implement a compiler using LLVM.
+
 use std::{
     fs::File,
     io::{self, Read},
@@ -14,6 +18,8 @@ mod lexer;
 mod position;
 mod token;
 
+/// The main function for this program.
+/// Parses arguments, lexes tokens.
 pub fn ocr_lang_main() {
     setup_logging().expect("Init logging failed");
 
