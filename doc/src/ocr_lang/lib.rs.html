@@ -67,6 +67,10 @@
 <span id="67">67</span>
 <span id="68">68</span>
 <span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
 </pre><pre class="rust"><code><span class="doccomment">//! OCR-lang is an interpreter for OCR Exam Reference, the pseudocode found in</span>
 <span class="doccomment">//! OCR Computer Science exams, at GCSE and A-Level.</span>
 <span class="doccomment">//! At some point in the future, I may try and implement a compiler using LLVM.</span>
@@ -76,8 +80,9 @@
     <span class="ident">io</span>::{<span class="self">self</span>, <span class="ident">Read</span>},
 };
 
+<span class="kw">use</span> <span class="ident">args::LogLevel</span>;
 <span class="kw">use</span> <span class="ident">clap::Parser</span>;
-<span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">trace</span>, <span class="ident">LevelFilter</span>};
+<span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">error</span>, <span class="ident">trace</span>, <span class="ident">LevelFilter</span>};
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::error</span>::{<span class="ident">handle_error</span>, <span class="ident">Error</span>, <span class="ident">ErrorKind</span>};
 
@@ -90,14 +95,17 @@
 <span class="doccomment">/// The main function for this program.</span>
 <span class="doccomment">/// Parses arguments, lexes tokens.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ocr_lang_main</span>() {
-    <span class="ident">setup_logging</span>().<span class="ident">expect</span>(<span class="string">&quot;Init logging failed&quot;</span>);
-
     <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">args::Args::parse</span>();
+    <span class="ident">setup_logging</span>(<span class="ident">args</span>.<span class="ident">log_level</span>).<span class="ident">expect</span>(<span class="string">&quot;Init logging failed&quot;</span>);
+
     <span class="kw">let</span> <span class="ident">stream</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Read</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">is_none</span>() {
+        <span class="macro">trace!</span>(<span class="string">&quot;Reading from stdin&quot;</span>);
         <span class="ident">Box::new</span>(<span class="ident">io::stdin</span>())
     } <span class="kw">else</span> {
+        <span class="macro">trace!</span>(<span class="string">&quot;Reading from &#39;{}&#39;&quot;</span>, <span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>());
         <span class="ident">Box::new</span>(<span class="kw">match</span> <span class="ident">File::open</span>(<span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>()) {
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; {
+                <span class="macro">error!</span>(<span class="string">&quot;Could not open file &#39;{}&#39;&quot;</span>, <span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>());
                 <span class="ident">handle_error</span>(<span class="ident">Error</span> {
                     <span class="ident">kind</span>: <span class="ident">ErrorKind::IOError</span>,
                     <span class="ident">msg</span>: <span class="macro">format!</span>(<span class="string">&quot;Could not open file &#39;{}&#39;&quot;</span>, <span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">unwrap</span>()),
@@ -120,7 +128,7 @@
 
 <span class="doccomment">/// Initialise logging.</span>
 <span class="doccomment">/// Copy-pasted from [Fern docs](https://docs.rs/fern/latest/fern/)</span>
-<span class="kw">fn</span> <span class="ident">setup_logging</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fern::InitError</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">setup_logging</span>(<span class="ident">level</span>: <span class="ident">LogLevel</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fern::InitError</span><span class="op">&gt;</span> {
     <span class="ident">fern::Dispatch::new</span>()
         .<span class="ident">format</span>(<span class="op">|</span><span class="ident">out</span>, <span class="ident">message</span>, <span class="ident">record</span><span class="op">|</span> {
             <span class="ident">out</span>.<span class="ident">finish</span>(<span class="macro">format_args!</span>(
@@ -131,7 +139,7 @@
                 <span class="ident">message</span>
             ))
         })
-        .<span class="ident">level</span>(<span class="ident">LevelFilter::Debug</span>)
+        .<span class="ident">level</span>(<span class="ident">level</span>.<span class="ident">to_level_filter</span>())
         .<span class="ident">chain</span>(<span class="ident">io::stdout</span>())
         .<span class="ident">apply</span>()<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())

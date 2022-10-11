@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":[["Args",""]]};
+window.SIDEBAR_ITEMS = {"enum":[["LogLevel","This is needed. See rust-lang/log#524"]],"struct":[["Args",""]]};
