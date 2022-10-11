@@ -7,8 +7,9 @@ use std::{
     io::{self, Read},
 };
 
+use args::LogLevel;
 use clap::Parser;
-use log::{trace, LevelFilter};
+use log::{error, trace, LevelFilter};
 
 use crate::error::{handle_error, Error, ErrorKind};
 
@@ -21,14 +22,17 @@ mod token;
 /// The main function for this program.
 /// Parses arguments, lexes tokens.
 pub fn ocr_lang_main() {
-    setup_logging().expect("Init logging failed");
-
     let args = args::Args::parse();
+    setup_logging(args.log_level).expect("Init logging failed");
+
     let stream: Box<dyn Read> = if args.filename.is_none() {
+        trace!("Reading from stdin");
         Box::new(io::stdin())
     } else {
+        trace!("Reading from '{}'", args.filename.as_ref().unwrap());
         Box::new(match File::open(args.filename.as_ref().unwrap()) {
             Err(_) => {
+                error!("Could not open file '{}'", args.filename.as_ref().unwrap());
                 handle_error(Error {
                     kind: ErrorKind::IOError,
                     msg: format!("Could not open file '{}'", args.filename.unwrap()),
@@ -51,7 +55,7 @@ pub fn ocr_lang_main() {
 
 /// Initialise logging.
 /// Copy-pasted from [Fern docs](https://docs.rs/fern/latest/fern/)
-fn setup_logging() -> Result<(), fern::InitError> {
+fn setup_logging(level: LogLevel) -> Result<(), fern::InitError> {
     fern::Dispatch::new()
         .format(|out, message, record| {
             out.finish(format_args!(
@@ -62,7 +66,7 @@ fn setup_logging() -> Result<(), fern::InitError> {
                 message
             ))
         })
-        .level(LevelFilter::Debug)
+        .level(level.to_level_filter())
         .chain(io::stdout())
         .apply()?;
     Ok(())
