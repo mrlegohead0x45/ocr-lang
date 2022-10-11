@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":[["ErrorKind","Enum to represent the diferent kinds of errors"]],"fn":[["handle_error","Prints the error nicely to the console and exits with code 1"]],"struct":[["Error","Struct to represent an error"]]};

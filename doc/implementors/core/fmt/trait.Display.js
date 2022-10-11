@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["ocr_lang"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.64.0/core/fmt/trait.Display.html\" title=\"trait core::fmt::Display\">Display</a> for <a class=\"struct\" href=\"ocr_lang/position/struct.Position.html\" title=\"struct ocr_lang::position::Position\">Position</a>","synthetic":false,"types":["ocr_lang::position::Position"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
