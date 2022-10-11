@@ -12,6 +12,8 @@ pub struct Lexer {
     current_char: Option<char>,
     /// Our position in the text we are lexing
     pos: Position,
+    /// The file name that we are lexing
+    filename: String,
 }
 
 impl Lexer {
@@ -20,7 +22,8 @@ impl Lexer {
         Self {
             stream,
             current_char: None,
-            pos: Position::start(filename),
+            pos: Position::start(filename.clone()),
+            filename,
         }
     }
 
@@ -34,6 +37,7 @@ impl Lexer {
             if self.advance().is_err() {
                 return Err(Error {
                     kind: ErrorKind::IOError,
+                    msg: format!("Could not open file '{}'", self.filename),
                 });
             };
         }
