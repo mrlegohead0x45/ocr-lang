@@ -17,7 +17,27 @@
 <span id="17">17</span>
 <span id="18">18</span>
 <span id="19">19</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::process</span>;
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fmt::Display</span>, <span class="ident">process</span>};
+
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::position::Position</span>;
 
 <span class="doccomment">/// Enum to represent the diferent kinds of errors</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -29,11 +49,27 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Error</span> {
     <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">ErrorKind</span>,
     <span class="kw">pub</span> <span class="ident">msg</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">pos</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Position</span><span class="op">&gt;</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Error</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
+        <span class="macro">write!</span>(
+            <span class="ident">f</span>,
+            <span class="string">&quot;{}{:?}: {}&quot;</span>,
+            <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">pos</span> {
+                <span class="prelude-val">None</span> =&gt; <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(),
+                <span class="prelude-val">Some</span>(<span class="ident">p</span>) =&gt; <span class="ident">p</span>.<span class="ident">to_string</span>() <span class="op">+</span> <span class="string">&quot;\n&quot;</span>,
+            },
+            <span class="self">self</span>.<span class="ident">kind</span>,
+            <span class="self">self</span>.<span class="ident">msg</span>
+        )
+    }
 }
 
 <span class="doccomment">/// Prints the error nicely to the console and exits with code 1</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">handle_error</span>(<span class="ident">e</span>: <span class="ident">Error</span>) {
-    <span class="macro">println!</span>(<span class="string">&quot;{:?}: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">kind</span>, <span class="ident">e</span>.<span class="ident">msg</span>);
+    <span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>);
     <span class="ident">process::exit</span>(<span class="number">1</span>);
 }
 </code></pre></div>

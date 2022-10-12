@@ -71,6 +71,7 @@
 <span id="71">71</span>
 <span id="72">72</span>
 <span id="73">73</span>
+<span id="74">74</span>
 </pre><pre class="rust"><code><span class="doccomment">//! OCR-lang is an interpreter for OCR Exam Reference, the pseudocode found in</span>
 <span class="doccomment">//! OCR Computer Science exams, at GCSE and A-Level.</span>
 <span class="doccomment">//! At some point in the future, I may try and implement a compiler using LLVM.</span>
@@ -82,7 +83,7 @@
 
 <span class="kw">use</span> <span class="ident">args::LogLevel</span>;
 <span class="kw">use</span> <span class="ident">clap::Parser</span>;
-<span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">error</span>, <span class="ident">trace</span>, <span class="ident">LevelFilter</span>};
+<span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">error</span>, <span class="ident">trace</span>};
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::error</span>::{<span class="ident">handle_error</span>, <span class="ident">Error</span>, <span class="ident">ErrorKind</span>};
 
@@ -109,6 +110,7 @@
                 <span class="ident">handle_error</span>(<span class="ident">Error</span> {
                     <span class="ident">kind</span>: <span class="ident">ErrorKind::IOError</span>,
                     <span class="ident">msg</span>: <span class="macro">format!</span>(<span class="string">&quot;Could not open file &#39;{}&#39;&quot;</span>, <span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">unwrap</span>()),
+                    <span class="ident">pos</span>: <span class="prelude-val">None</span>,
                 });
                 <span class="macro">unreachable!</span>() <span class="comment">// because handle_error exits</span>
             }
