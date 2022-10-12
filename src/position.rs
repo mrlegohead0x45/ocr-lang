@@ -20,6 +20,7 @@ impl Display for Position {
 }
 
 impl Position {
+    /// Return a [`Position`] at the start of a file
     pub fn start(filename: String) -> Self {
         Self {
             line: 1,
@@ -28,6 +29,8 @@ impl Position {
         }
     }
 
+    /// Advance this [`Position`] to `char`.
+    /// Increments `line` and also `column` if `char` is a newline
     pub fn advance(&mut self, c: char) {
         if c == '\n' {
             self.line += 1;

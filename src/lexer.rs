@@ -1,4 +1,6 @@
-use std::io::{self, Read};
+use std::io::Read;
+
+use log::{trace, warn};
 
 use crate::error::{Error, ErrorKind};
 use crate::position::Position;
@@ -34,12 +36,7 @@ impl Lexer {
         let mut tokens = Vec::new();
 
         while self.current_char.is_some() {
-            if self.advance().is_err() {
-                return Err(Error {
-                    kind: ErrorKind::IOError,
-                    msg: format!("Could not open file '{}'", self.filename),
-                });
-            };
+            self.advance()?;
         }
 
         Ok(tokens)
@@ -49,7 +46,7 @@ impl Lexer {
     /// Reads one byte from the input stream and places it in
     /// `current_char`. Returns `Err` if reading from the stream failed,
     /// with a `kind` of [`ErrorKind::IOError`]
-    fn advance(&mut self) -> io::Result<()> {
+    fn advance(&mut self) -> Result<(), Error> {
         let mut buf = [0; 1];
         match self.stream.read_exact(&mut buf) {
             Ok(()) => {
@@ -59,9 +56,13 @@ impl Lexer {
                 self.pos.advance(self.current_char.unwrap());
                 Ok(())
             }
-            Err(e) => {
+            Err(_) => {
+                warn!("Reached EOF while lexing");
                 self.current_char = None;
-                Err(e)
+                Err(Error {
+                    kind: ErrorKind::IOError,
+                    msg: format!("Could not open file '{}'", self.filename),
+                })
             }
         }
     }

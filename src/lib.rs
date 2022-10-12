@@ -9,7 +9,7 @@ use std::{
 
 use args::LogLevel;
 use clap::Parser;
-use log::{error, trace, LevelFilter};
+use log::{error, trace};
 
 use crate::error::{handle_error, Error, ErrorKind};
 
