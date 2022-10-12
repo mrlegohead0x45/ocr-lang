@@ -1,0 +1,5 @@
+{
+    "files.associations": {
+        "*.ebnf": "w3c-ebnf"
+    }
+}
