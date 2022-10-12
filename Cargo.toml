@@ -1,12 +1,13 @@
 [package]
 name = "ocr-lang"
 version = "0.1.0"
+authors = ["mrlegohead0x45 <mrlegohead0x45@gmail.com>"]
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+description = "OCR Exam Reference Language interpreter"
+repository = "https://github.com/mrlegohead0x45/ocr-lang"
 
 [dependencies]
 chrono = "0.4.22"
-clap = { version = "4.0.13", features = ["derive"] }
+clap = { version = "4.0.13", features = ["derive", "cargo"] }
 fern = "0.6.1"
 log = "0.4.17"

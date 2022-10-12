@@ -1,6 +1,10 @@
 use clap::Parser;
 
 #[derive(Parser)]
+#[command(name = "ocr-lang")]
+#[command(author = "mrlegohead0x45 <mrlegohead0x45@gmail.com>")]
+#[command(version = clap::crate_version!())]
+#[command(about = clap::crate_description!())]
 pub struct Args {
     /// File to run.
     /// If not given, defaults to stdin, which does not mean a REPL,
