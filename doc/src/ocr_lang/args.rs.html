@@ -54,9 +54,17 @@
 <span id="54">54</span>
 <span id="55">55</span>
 <span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">clap::Parser</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Parser</span>)]</span>
+<span class="attribute">#[<span class="ident">command</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;ocr-lang&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">command</span>(<span class="ident">author</span> <span class="op">=</span> <span class="string">&quot;mrlegohead0x45 &lt;mrlegohead0x45@gmail.com&gt;&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">command</span>(<span class="ident">version</span> <span class="op">=</span> <span class="macro">clap::crate_version!</span>())]</span>
+<span class="attribute">#[<span class="ident">command</span>(<span class="ident">about</span> <span class="op">=</span> <span class="macro">clap::crate_description!</span>())]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Args</span> {
     <span class="doccomment">/// File to run.</span>
     <span class="doccomment">/// If not given, defaults to stdin, which does not mean a REPL,</span>
