@@ -36,6 +36,7 @@ pub fn ocr_lang_main() {
                 handle_error(Error {
                     kind: ErrorKind::IOError,
                     msg: format!("Could not open file '{}'", args.filename.unwrap()),
+                    pos: None,
                 });
                 unreachable!() // because handle_error exits
             }

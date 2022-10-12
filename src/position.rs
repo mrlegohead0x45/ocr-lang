@@ -11,11 +11,7 @@ pub struct Position {
 
 impl Display for Position {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "Line {}, column {}, '{}'",
-            self.line, self.column, self.filename
-        )
+        write!(f, "{}:{}:{}", self.filename, self.line, self.column)
     }
 }
 

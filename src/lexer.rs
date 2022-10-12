@@ -62,6 +62,7 @@ impl Lexer {
                 Err(Error {
                     kind: ErrorKind::IOError,
                     msg: format!("Could not open file '{}'", self.filename),
+                    pos: None,
                 })
             }
         }
