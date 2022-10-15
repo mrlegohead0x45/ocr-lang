@@ -1,0 +1,50 @@
+/* formal definition of specs in W3C EBNF */
+/* sections in @as{} are only available in AS or greater, likewise @a2{} */
+
+/* space or tab or LF or CR */
+any_ws ::= (" " | #x9 | #xA | #xD)*
+one_ws ::= (" " | #x9 | #xA | #xD)+
+/* optional CR then LF */
+eol ::= #xD? #xA
+
+digit_excluding_zero ::= [0-9]
+digit ::= digit_excluding_zero | "0"
+
+
+integer ::= "-"? digit_excluding_zero digit*
+integer_ge_zero ::= digit_excluding_zero digit*
+float ::= "-"? digit+ "." digit+
+
+comparison_operator ::= [!=] "=" | [<>] "="?
+boolean_operator ::= "AND" | "OR" | "NOT"
+
+identifier ::= [a-zA-Z] [a-zA-Z0-9]*
+
+array_def ::= "array" one_ws identifier any_ws "[" any_ws integer_ge_zero (any_ws "," any_ws integer_ge_zero)? any_ws "]"
+
+/* function_name((param_one,)* param_two) */
+function_call ::= identifier ws "(" ws (expression ws "," ws)* ws expression ws ")"
+
+/* function and procedure definitions */
+function_param ::= identifier any_ws @as{ (":" any_ws "by" "val" | "ref")? }
+function_def ::= "function" one_ws identifier any_ws "(" any_ws (function_param any_ws "," any_ws)* any_ws function_param ")"
+procedure_def ::= "procedure" one_ws identifier any_ws "(" any_ws (function_param any_ws "," any_ws)* any_ws function_param ")"
+
+/* classes */
+@a2 {
+    access_modifier ::= "public" | "private"
+    class_variable_def ::= (access_modifier one_ws)? variable_def
+    class_function_def ::= (access_modifier one_ws)? function_def
+    class_procedure_def ::= (access_modifier one_ws)? procedure_def
+    inherits ::= "inherits" one_ws identifier
+    class_def ::= "class" identifier inherits? eol
+        any_ws
+        (any_ws 
+            class_variable_def
+            | class_function_def
+            | class_procedure_def
+            eol
+        any_ws)* 
+        any_ws eol
+    "endclass"
+}
