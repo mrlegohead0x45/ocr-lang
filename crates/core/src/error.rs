@@ -1,4 +1,4 @@
-use std::{fmt::Display, process};
+use std::fmt::Display;
 
 use crate::position::Position;
 
@@ -28,10 +28,4 @@ impl Display for Error {
             self.msg
         )
     }
-}
-
-/// Prints the error nicely to the console and exits with code 1
-pub fn handle_error(e: Error) {
-    println!("{}", e);
-    process::exit(1);
 }
