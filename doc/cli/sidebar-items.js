@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":[["handle_error","Print an error and exit code 1"],["main",""],["setup_logging","Initialise logging. Copy-pasted from Fern docs"]],"mod":[["args",""]]};

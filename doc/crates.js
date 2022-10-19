@@ -1,1 +1,1 @@
-window.ALL_CRATES = ["ocr_lang"];
+window.ALL_CRATES = ["cli","core"];

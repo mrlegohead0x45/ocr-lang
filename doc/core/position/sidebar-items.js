@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Position","Struct to represent the position we are at in the text we are lexing"]]};

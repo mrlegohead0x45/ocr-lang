@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":[["LogLevel","Enum for logging levels in args. This is needed, because we could `derive` [`clap::ValueEnum`] for [`log::LevelFilter`], but somebody already tried to submit a PR for that and got rejected"],["Specification","Enum for what specification to run the code at."]],"struct":[["Args",""]]};
