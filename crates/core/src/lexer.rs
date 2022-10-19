@@ -1,8 +1,8 @@
-use std::io::Read;
+use std::{io, io::Read};
 
-use log::{trace, warn};
+use log::warn;
 
-use crate::error::{Error, ErrorKind};
+use crate::error::Error;
 use crate::position::Position;
 use crate::token::Token;
 
@@ -37,6 +37,7 @@ impl Lexer {
 
         while self.current_char.is_some() {
             self.advance()?;
+            // TODO: lex
         }
 
         Ok(tokens)
@@ -56,15 +57,19 @@ impl Lexer {
                 self.pos.advance(self.current_char.unwrap());
                 Ok(())
             }
-            Err(_) => {
-                warn!("Reached EOF while lexing");
-                self.current_char = None;
-                Err(Error {
-                    kind: ErrorKind::IOError,
-                    msg: format!("Could not open file '{}'", self.filename),
-                    pos: None,
-                })
-            }
+            Err(e) => match e.kind() {
+                // Eof needs more complex handling
+                io::ErrorKind::UnexpectedEof => {
+                    warn!("Reached EOF while lexing");
+                    self.current_char = None;
+                    Ok(())
+                }
+                _ => Err(Error::from_std_io_errorkind(
+                    e.kind(),
+                    Some(self.pos.clone()),
+                    &self.filename,
+                )),
+            },
         }
     }
 }

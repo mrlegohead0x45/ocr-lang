@@ -2,7 +2,7 @@ use std::fmt::Display;
 
 /// Struct to represent the position we are at in the text
 /// we are lexing
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Position {
     line: usize,
     column: usize,

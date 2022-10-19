@@ -9,7 +9,7 @@ use std::{
 use clap::Parser;
 use log::{error, trace};
 
-use core::{Error, ErrorKind, Lexer};
+use core::{Error, Lexer};
 
 use crate::args::LogLevel;
 
@@ -23,13 +23,13 @@ fn main() {
     } else {
         trace!("Reading from '{}'", args.filename.as_ref().unwrap());
         Box::new(match File::open(args.filename.as_ref().unwrap()) {
-            Err(_) => {
+            Err(e) => {
                 error!("Could not open file '{}'", args.filename.as_ref().unwrap());
-                handle_error(Error {
-                    kind: ErrorKind::IOError,
-                    msg: format!("Could not open file '{}'", args.filename.unwrap()),
-                    pos: None,
-                });
+                handle_error(Error::from_std_io_errorkind(
+                    e.kind(),
+                    None,
+                    &args.filename.unwrap(),
+                ));
                 unreachable!() // because handle_error exits
             }
             Ok(f) => f,
