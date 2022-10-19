@@ -68,11 +68,16 @@
 <span id="68">68</span>
 <span id="69">69</span>
 <span id="70">70</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::io::Read</span>;
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">io</span>, <span class="ident">io::Read</span>};
 
-<span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">trace</span>, <span class="ident">warn</span>};
+<span class="kw">use</span> <span class="ident">log::warn</span>;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::error</span>::{<span class="ident">Error</span>, <span class="ident">ErrorKind</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::error::Error</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::position::Position</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::token::Token</span>;
 
@@ -107,6 +112,7 @@
 
         <span class="kw">while</span> <span class="self">self</span>.<span class="ident">current_char</span>.<span class="ident">is_some</span>() {
             <span class="self">self</span>.<span class="ident">advance</span>()<span class="question-mark">?</span>;
+            <span class="comment">// TODO: lex</span>
         }
 
         <span class="prelude-val">Ok</span>(<span class="ident">tokens</span>)
@@ -126,15 +132,19 @@
                 <span class="self">self</span>.<span class="ident">pos</span>.<span class="ident">advance</span>(<span class="self">self</span>.<span class="ident">current_char</span>.<span class="ident">unwrap</span>());
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; {
-                <span class="macro">warn!</span>(<span class="string">&quot;Reached EOF while lexing&quot;</span>);
-                <span class="self">self</span>.<span class="ident">current_char</span> <span class="op">=</span> <span class="prelude-val">None</span>;
-                <span class="prelude-val">Err</span>(<span class="ident">Error</span> {
-                    <span class="ident">kind</span>: <span class="ident">ErrorKind::IOError</span>,
-                    <span class="ident">msg</span>: <span class="macro">format!</span>(<span class="string">&quot;Could not open file &#39;{}&#39;&quot;</span>, <span class="self">self</span>.<span class="ident">filename</span>),
-                    <span class="ident">pos</span>: <span class="prelude-val">None</span>,
-                })
-            }
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="kw">match</span> <span class="ident">e</span>.<span class="ident">kind</span>() {
+                <span class="comment">// Eof needs more complex handling</span>
+                <span class="ident">io::ErrorKind::UnexpectedEof</span> =&gt; {
+                    <span class="macro">warn!</span>(<span class="string">&quot;Reached EOF while lexing&quot;</span>);
+                    <span class="self">self</span>.<span class="ident">current_char</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+                    <span class="prelude-val">Ok</span>(())
+                }
+                <span class="kw">_</span> =&gt; <span class="prelude-val">Err</span>(<span class="ident">Error::from_std_io_errorkind</span>(
+                    <span class="ident">e</span>.<span class="ident">kind</span>(),
+                    <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">pos</span>.<span class="ident">clone</span>()),
+                    <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">filename</span>,
+                )),
+            },
         }
     }
 }

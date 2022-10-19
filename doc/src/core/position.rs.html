@@ -40,7 +40,7 @@
 
 <span class="doccomment">/// Struct to represent the position we are at in the text</span>
 <span class="doccomment">/// we are lexing</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Position</span> {
     <span class="ident">line</span>: <span class="ident">usize</span>,
     <span class="ident">column</span>: <span class="ident">usize</span>,

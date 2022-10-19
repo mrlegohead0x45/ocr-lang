@@ -81,7 +81,7 @@
 <span class="kw">use</span> <span class="ident">clap::Parser</span>;
 <span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">error</span>, <span class="ident">trace</span>};
 
-<span class="kw">use</span> <span class="ident">core</span>::{<span class="ident">Error</span>, <span class="ident">ErrorKind</span>, <span class="ident">Lexer</span>};
+<span class="kw">use</span> <span class="ident">core</span>::{<span class="ident">Error</span>, <span class="ident">Lexer</span>};
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::args::LogLevel</span>;
 
@@ -95,13 +95,13 @@
     } <span class="kw">else</span> {
         <span class="macro">trace!</span>(<span class="string">&quot;Reading from &#39;{}&#39;&quot;</span>, <span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>());
         <span class="ident">Box::new</span>(<span class="kw">match</span> <span class="ident">File::open</span>(<span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>()) {
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; {
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; {
                 <span class="macro">error!</span>(<span class="string">&quot;Could not open file &#39;{}&#39;&quot;</span>, <span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>());
-                <span class="ident">handle_error</span>(<span class="ident">Error</span> {
-                    <span class="ident">kind</span>: <span class="ident">ErrorKind::IOError</span>,
-                    <span class="ident">msg</span>: <span class="macro">format!</span>(<span class="string">&quot;Could not open file &#39;{}&#39;&quot;</span>, <span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">unwrap</span>()),
-                    <span class="ident">pos</span>: <span class="prelude-val">None</span>,
-                });
+                <span class="ident">handle_error</span>(<span class="ident">Error::from_std_io_errorkind</span>(
+                    <span class="ident">e</span>.<span class="ident">kind</span>(),
+                    <span class="prelude-val">None</span>,
+                    <span class="kw-2">&amp;</span><span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">unwrap</span>(),
+                ));
                 <span class="macro">unreachable!</span>() <span class="comment">// because handle_error exits</span>
             }
             <span class="prelude-val">Ok</span>(<span class="ident">f</span>) =&gt; <span class="ident">f</span>,
