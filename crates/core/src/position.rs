@@ -36,3 +36,45 @@ impl Position {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_start() {
+        let pos = Position::start("filename".to_string());
+        assert_eq!(pos.column, 1);
+        assert_eq!(pos.line, 1);
+        assert_eq!(pos.filename, "filename".to_string())
+    }
+
+    #[test]
+    fn test_advance() {
+        let mut pos = Position::start("filename".to_string());
+        pos.advance('c');
+
+        assert_eq!(pos.column, 2);
+    }
+
+    #[test]
+    fn test_advance_lf() {
+        let mut pos = Position::start("filename".to_string());
+        pos.advance('c');
+        pos.advance('\n');
+
+        assert_eq!(pos.column, 0);
+        assert_eq!(pos.line, 2);
+    }
+
+    #[test]
+    fn test_advance_crlf() {
+        let mut pos = Position::start("filename".to_string());
+        pos.advance('c');
+        pos.advance('\r');
+        pos.advance('\n');
+
+        assert_eq!(pos.column, 0);
+        assert_eq!(pos.line, 2);
+    }
+}
