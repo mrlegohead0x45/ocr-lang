@@ -12,13 +12,13 @@ pub enum ErrorKind {
 }
 
 /// Struct to represent an error
-pub struct Error {
+pub struct Error<'a> {
     pub kind: ErrorKind,
     pub msg: String,
-    pub pos: Option<Position>,
+    pub pos: Option<Position<'a>>,
 }
 
-impl Display for Error {
+impl Display for Error<'_> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
@@ -34,14 +34,14 @@ impl Display for Error {
 }
 
 // TODO: impl From
-impl Error {
+impl Error<'_> {
     /// Create a new [`Error`] from an [`io::ErrorKind`]
     /// at `pos` reading from `filename`
-    pub fn from_std_io_errorkind(
+    pub fn from_std_io_errorkind<'a>(
         io_errorkind: io::ErrorKind,
-        pos: Option<Position>,
-        filename: &str,
-    ) -> Error {
+        pos: Option<Position<'a>>,
+        filename: &'a str,
+    ) -> Error<'a> {
         match io_errorkind {
             io::ErrorKind::NotFound | io::ErrorKind::PermissionDenied => {
                 let kind: ErrorKind;

@@ -3,21 +3,21 @@ use std::fmt::Display;
 /// Struct to represent the position we are at in the text
 /// we are lexing
 #[derive(Debug, Clone)]
-pub struct Position {
+pub struct Position<'a> {
     line: usize,
     column: usize,
-    filename: String,
+    filename: &'a str,
 }
 
-impl Display for Position {
+impl Display for Position<'_> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}:{}:{}", self.filename, self.line, self.column)
     }
 }
 
-impl Position {
+impl<'a> Position<'a> {
     /// Return a [`Position`] at the start of a file
-    pub fn start(filename: String) -> Self {
+    pub fn start(filename: &'a str) -> Position<'a> {
         Self {
             line: 1,
             column: 1,
@@ -43,7 +43,7 @@ mod tests {
 
     #[test]
     fn test_start() {
-        let pos = Position::start("filename".to_string());
+        let pos = Position::start("filename");
         assert_eq!(pos.column, 1);
         assert_eq!(pos.line, 1);
         assert_eq!(pos.filename, "filename".to_string())
@@ -51,7 +51,7 @@ mod tests {
 
     #[test]
     fn test_advance() {
-        let mut pos = Position::start("filename".to_string());
+        let mut pos = Position::start("filename");
         pos.advance('c');
 
         assert_eq!(pos.column, 2);
@@ -59,7 +59,7 @@ mod tests {
 
     #[test]
     fn test_advance_lf() {
-        let mut pos = Position::start("filename".to_string());
+        let mut pos = Position::start("filename");
         pos.advance('c');
         pos.advance('\n');
 
@@ -69,7 +69,7 @@ mod tests {
 
     #[test]
     fn test_advance_crlf() {
-        let mut pos = Position::start("filename".to_string());
+        let mut pos = Position::start("filename");
         pos.advance('c');
         pos.advance('\r');
         pos.advance('\n');
@@ -80,7 +80,7 @@ mod tests {
 
     #[test]
     fn test_display() {
-        let pos = Position::start("filename".to_string());
+        let pos = Position::start("filename");
 
         assert_eq!(pos.to_string(), "filename:1:1")
     }

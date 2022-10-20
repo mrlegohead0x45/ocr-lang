@@ -39,7 +39,7 @@ fn main() {
     let lexer = Lexer::new(
         stream,
         match args.filename {
-            None => String::from("<stdin>"),
+            None => "<stdin>",
             Some(f) => f,
         },
     );

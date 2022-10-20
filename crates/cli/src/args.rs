@@ -9,7 +9,7 @@ pub struct Args {
     /// File to run.
     /// If not given, defaults to stdin, which does not mean a REPL,
     /// rather the code will be read from stdin all at once and then run.
-    pub filename: Option<String>,
+    pub filename: Option<&str>,
 
     /// Level to log messages at
     #[arg(value_enum, short, long, default_value_t = LogLevel::Off)]

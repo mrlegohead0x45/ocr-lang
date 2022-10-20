@@ -7,24 +7,24 @@ use crate::position::Position;
 use crate::token::Token;
 
 /// Struct to transform input into [`Token`]s
-pub struct Lexer {
+pub struct Lexer<'a> {
     /// Stream that we are reading our input from
     stream: Box<dyn Read>,
     /// Character that we are currently processing
     current_char: Option<char>,
     /// Our position in the text we are lexing
-    pos: Position,
+    pos: Position<'a>,
     /// The file name that we are lexing
-    filename: String,
+    filename: &'a str,
 }
 
-impl Lexer {
+impl<'a> Lexer<'a> {
     /// Create a new [`Lexer`]
-    pub fn new(stream: Box<dyn Read>, filename: String) -> Self {
+    pub fn new(stream: Box<dyn Read>, filename: &'a str) -> Lexer<'a> {
         Self {
             stream,
             current_char: None,
-            pos: Position::start(filename.clone()),
+            pos: Position::start(filename),
             filename,
         }
     }
@@ -32,12 +32,20 @@ impl Lexer {
     /// Transform into [`Vec<Token>`].
     /// Returns `Err` if we could not parse the input stream.
     /// Access the [`Error`]'s `kind` field for more details
-    pub fn lex(&mut self) -> Result<Vec<Token>, Error> {
+    pub fn lex(&'a mut self) -> Result<Vec<Token>, Error> {
         let mut tokens = Vec::new();
 
-        while self.current_char.is_some() {
-            self.advance()?;
-            // TODO: lex
+        loop {
+            // TODO: fix
+            self.advance()?; // mutable borrow
+                             // Lexer::advance(&mut self)?;
+                             // TODO: lex
+
+            // immutable borrow
+            // Option::is_none(&self.current_char)
+            if self.current_char.is_none() {
+                break;
+            }
         }
 
         Ok(tokens)
