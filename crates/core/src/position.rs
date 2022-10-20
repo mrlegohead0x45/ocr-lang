@@ -77,4 +77,11 @@ mod tests {
         assert_eq!(pos.column, 0);
         assert_eq!(pos.line, 2);
     }
+
+    #[test]
+    fn test_display() {
+        let pos = Position::start("filename".to_string());
+
+        assert_eq!(pos.to_string(), "filename:1:1")
+    }
 }
