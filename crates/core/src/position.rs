@@ -80,7 +80,7 @@ mod tests {
 
     #[test]
     fn test_display() {
-        let pos = Position::start("filename");
+        let pos = Position::start("filename".to_string());
 
         assert_eq!(pos.to_string(), "filename:1:1")
     }
