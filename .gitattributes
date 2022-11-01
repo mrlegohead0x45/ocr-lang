@@ -1,0 +1,10 @@
+* text=auto
+
+*.rs text
+*.toml text
+
+*.ocr text
+*.ebnf text
+*.md text
+
+Cargo.lock binary
