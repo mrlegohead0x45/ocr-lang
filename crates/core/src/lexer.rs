@@ -35,12 +35,23 @@ impl Lexer {
     pub fn lex(&mut self) -> Result<Vec<Token>, Error> {
         let mut tokens = Vec::new();
 
-        while self.current_char.is_some() {
+        loop {
             self.advance()?;
-            // TODO: lex
+
+            self.consume_whitespace();
+
+            if self.current_char.is_none() {
+                break;
+            }
         }
 
         Ok(tokens)
+    }
+
+    fn consume_whitespace(&mut self) {
+        while let Some(' ' | '\t' | '\n' | '\r') = self.current_char {
+            self.advance();
+        }
     }
 
     /// Advance the [`Lexer`].
