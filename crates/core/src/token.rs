@@ -1,6 +1,6 @@
 /// Enum for tokens
 #[allow(unused)] // TODO: Use all of them!
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Token {
     // Keywords
     Class,

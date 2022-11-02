@@ -2,13 +2,14 @@ use std::{fmt::Display, io};
 
 use log::error;
 
-use crate::position::Position;
+use crate::{position::Position, token::Token};
 
 /// Enum to represent the diferent kinds of errors
 #[derive(Debug)]
 pub enum ErrorKind {
     FileNotFoundError,
     PermissionDeniedError,
+    UnexpectedEof { expected: Token },
 }
 
 /// Struct to represent an error

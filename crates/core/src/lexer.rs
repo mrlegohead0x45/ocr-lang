@@ -5,6 +5,7 @@ use log::{trace, warn};
 use crate::error::Error;
 use crate::position::Position;
 use crate::token::Token;
+use crate::ErrorKind;
 
 /// Struct to transform input into [`Token`]s
 pub struct Lexer {
@@ -43,12 +44,22 @@ impl Lexer {
 
             self.consume_whitespace()?;
 
+            let mut expected: Option<Token> = None;
+
             if self.current_char.is_none() {
-                break;
+                if let Some(expected) = expected {
+                    return Err(Error {
+                        kind: ErrorKind::UnexpectedEof {
+                            expected: expected.clone(),
+                        },
+                        msg: format!("Unexpected EOF, expected {:?}", expected),
+                        pos: Some(self.pos.clone()),
+                    });
+                } else {
+                    return Ok(tokens);
+                }
             }
         }
-
-        Ok(tokens)
     }
 
     /// Keep advancing as long as `self.current_char` is whitespace,
