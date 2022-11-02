@@ -1,6 +1,6 @@
 use std::{io, io::Read};
 
-use log::warn;
+use log::{trace, warn};
 
 use crate::error::Error;
 use crate::position::Position;
@@ -17,6 +17,9 @@ pub struct Lexer {
     /// The file name that we are lexing
     filename: String,
 }
+
+/// Type alias for an empty [`Result`]
+type EmptyResult = Result<(), Error>;
 
 impl Lexer {
     /// Create a new [`Lexer`]
@@ -38,7 +41,7 @@ impl Lexer {
         loop {
             self.advance()?;
 
-            self.consume_whitespace();
+            self.consume_whitespace()?;
 
             if self.current_char.is_none() {
                 break;
@@ -48,17 +51,25 @@ impl Lexer {
         Ok(tokens)
     }
 
-    fn consume_whitespace(&mut self) {
+    /// Keep advancing as long as `self.current_char` is whitespace,
+    /// which is any of the following characters
+    /// - `' '`
+    /// - `'\t'`
+    /// - `'\n'`
+    /// - `'\r'`
+    fn consume_whitespace(&mut self) -> EmptyResult {
+        trace!("Consuming whitespace");
         while let Some(' ' | '\t' | '\n' | '\r') = self.current_char {
-            self.advance();
+            self.advance()?;
         }
+        Ok(())
     }
 
     /// Advance the [`Lexer`].
     /// Reads one byte from the input stream and places it in
     /// `current_char`. Returns `Err` if reading from the stream failed,
-    /// with a `kind` of [`ErrorKind::IOError`]
-    fn advance(&mut self) -> Result<(), Error> {
+    /// containing the error encountered.
+    fn advance(&mut self) -> EmptyResult {
         let mut buf = [0; 1];
         match self.stream.read_exact(&mut buf) {
             Ok(()) => {
