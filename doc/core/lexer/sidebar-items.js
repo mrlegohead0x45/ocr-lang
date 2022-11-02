@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":[["Lexer","Struct to transform input into [`Token`]s"]]};
+window.SIDEBAR_ITEMS = {"struct":[["Lexer","Struct to transform input into [`Token`]s"]],"type":[["EmptyResult","Type alias for an empty [`Result`]"]]};

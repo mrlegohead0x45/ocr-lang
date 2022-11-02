@@ -84,9 +84,20 @@
 <span id="84">84</span>
 <span id="85">85</span>
 <span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">io</span>, <span class="ident">io::Read</span>};
 
-<span class="kw">use</span> <span class="ident">log::warn</span>;
+<span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">trace</span>, <span class="ident">warn</span>};
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::error::Error</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::position::Position</span>;
@@ -103,6 +114,9 @@
     <span class="doccomment">/// The file name that we are lexing</span>
     <span class="ident">filename</span>: <span class="ident">String</span>,
 }
+
+<span class="doccomment">/// Type alias for an empty [`Result`]</span>
+<span class="kw">type</span> <span class="ident">EmptyResult</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span>;
 
 <span class="kw">impl</span> <span class="ident">Lexer</span> {
     <span class="doccomment">/// Create a new [`Lexer`]</span>
@@ -124,7 +138,7 @@
         <span class="kw">loop</span> {
             <span class="self">self</span>.<span class="ident">advance</span>()<span class="question-mark">?</span>;
 
-            <span class="self">self</span>.<span class="ident">consume_whitespace</span>();
+            <span class="self">self</span>.<span class="ident">consume_whitespace</span>()<span class="question-mark">?</span>;
 
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">current_char</span>.<span class="ident">is_none</span>() {
                 <span class="kw">break</span>;
@@ -134,17 +148,25 @@
         <span class="prelude-val">Ok</span>(<span class="ident">tokens</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">consume_whitespace</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
+    <span class="doccomment">/// Keep advancing as long as `self.current_char` is whitespace,</span>
+    <span class="doccomment">/// which is any of the following characters</span>
+    <span class="doccomment">/// - `&#39; &#39;`</span>
+    <span class="doccomment">/// - `&#39;\t&#39;`</span>
+    <span class="doccomment">/// - `&#39;\n&#39;`</span>
+    <span class="doccomment">/// - `&#39;\r&#39;`</span>
+    <span class="kw">fn</span> <span class="ident">consume_whitespace</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">EmptyResult</span> {
+        <span class="macro">trace!</span>(<span class="string">&quot;Consuming whitespace&quot;</span>);
         <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="string">&#39; &#39;</span> <span class="op">|</span> <span class="string">&#39;\t&#39;</span> <span class="op">|</span> <span class="string">&#39;\n&#39;</span> <span class="op">|</span> <span class="string">&#39;\r&#39;</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_char</span> {
-            <span class="self">self</span>.<span class="ident">advance</span>();
+            <span class="self">self</span>.<span class="ident">advance</span>()<span class="question-mark">?</span>;
         }
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// Advance the [`Lexer`].</span>
     <span class="doccomment">/// Reads one byte from the input stream and places it in</span>
     <span class="doccomment">/// `current_char`. Returns `Err` if reading from the stream failed,</span>
-    <span class="doccomment">/// with a `kind` of [`ErrorKind::IOError`]</span>
-    <span class="kw">fn</span> <span class="ident">advance</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// containing the error encountered.</span>
+    <span class="kw">fn</span> <span class="ident">advance</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">EmptyResult</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">1</span>];
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">stream</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>) {
             <span class="prelude-val">Ok</span>(()) =&gt; {
