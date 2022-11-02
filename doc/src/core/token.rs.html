@@ -83,7 +83,7 @@
 <span id="83">83</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Enum for tokens</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused</span>)]</span> <span class="comment">// TODO: Use all of them!</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Token</span> {
     <span class="comment">// Keywords</span>
     <span class="ident">Class</span>,

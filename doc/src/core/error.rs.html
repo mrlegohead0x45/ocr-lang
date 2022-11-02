@@ -68,17 +68,19 @@
 <span id="68">68</span>
 <span id="69">69</span>
 <span id="70">70</span>
+<span id="71">71</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fmt::Display</span>, <span class="ident">io</span>};
 
 <span class="kw">use</span> <span class="ident">log::error</span>;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::position::Position</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">position::Position</span>, <span class="ident">token::Token</span>};
 
 <span class="doccomment">/// Enum to represent the diferent kinds of errors</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ErrorKind</span> {
     <span class="ident">FileNotFoundError</span>,
     <span class="ident">PermissionDeniedError</span>,
+    <span class="ident">UnexpectedEof</span> { <span class="ident">expected</span>: <span class="ident">Token</span> },
 }
 
 <span class="doccomment">/// Struct to represent an error</span>
