@@ -7,7 +7,7 @@ use std::{
 };
 
 use clap::Parser;
-use log::{error, trace};
+use log::{error, info};
 
 use core::{Error, Lexer};
 
@@ -18,10 +18,10 @@ fn main() {
     setup_logging(args.log_level).expect("Init logging failed");
 
     let stream: Box<dyn Read> = if args.filename.is_none() {
-        trace!("Reading from stdin");
+        info!("Reading from stdin");
         Box::new(stdin())
     } else {
-        trace!("Reading from '{}'", args.filename.as_ref().unwrap());
+        info!("Reading from '{}'", args.filename.as_ref().unwrap());
         Box::new(match File::open(args.filename.as_ref().unwrap()) {
             Err(e) => {
                 error!("Could not open file '{}'", args.filename.as_ref().unwrap());
@@ -36,14 +36,19 @@ fn main() {
         })
     };
 
-    let lexer = Lexer::new(
+    let mut lexer = Lexer::new(
         stream,
         match args.filename {
             None => String::from("<stdin>"),
             Some(f) => f,
         },
     );
-    trace!("Constructed lexer");
+    info!("Constructed lexer");
+    let maybe_tokens = lexer.make_tokens();
+    match maybe_tokens {
+        Ok(tokens) => println!("{:?}", tokens),
+        Err(e) => handle_error(e),
+    }
 }
 
 /// Initialise logging.

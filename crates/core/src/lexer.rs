@@ -35,7 +35,7 @@ impl Lexer {
     /// Transform into [`Vec<Token>`].
     /// Returns `Err` if we could not parse the input stream.
     /// Access the [`Error`]'s `kind` field for more details
-    pub fn lex(&mut self) -> Result<Vec<Token>, Error> {
+    pub fn make_tokens(&mut self) -> Result<Vec<Token>, Error> {
         let mut tokens = Vec::new();
 
         loop {
