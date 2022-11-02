@@ -70,6 +70,11 @@
 <span id="70">70</span>
 <span id="71">71</span>
 <span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
 </pre><pre class="rust"><code><span class="kw">mod</span> <span class="ident">args</span>;
 
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -79,7 +84,7 @@
 };
 
 <span class="kw">use</span> <span class="ident">clap::Parser</span>;
-<span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">error</span>, <span class="ident">trace</span>};
+<span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">error</span>, <span class="ident">info</span>};
 
 <span class="kw">use</span> <span class="ident">core</span>::{<span class="ident">Error</span>, <span class="ident">Lexer</span>};
 
@@ -90,10 +95,10 @@
     <span class="ident">setup_logging</span>(<span class="ident">args</span>.<span class="ident">log_level</span>).<span class="ident">expect</span>(<span class="string">&quot;Init logging failed&quot;</span>);
 
     <span class="kw">let</span> <span class="ident">stream</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Read</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">is_none</span>() {
-        <span class="macro">trace!</span>(<span class="string">&quot;Reading from stdin&quot;</span>);
+        <span class="macro">info!</span>(<span class="string">&quot;Reading from stdin&quot;</span>);
         <span class="ident">Box::new</span>(<span class="ident">stdin</span>())
     } <span class="kw">else</span> {
-        <span class="macro">trace!</span>(<span class="string">&quot;Reading from &#39;{}&#39;&quot;</span>, <span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>());
+        <span class="macro">info!</span>(<span class="string">&quot;Reading from &#39;{}&#39;&quot;</span>, <span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>());
         <span class="ident">Box::new</span>(<span class="kw">match</span> <span class="ident">File::open</span>(<span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>()) {
             <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; {
                 <span class="macro">error!</span>(<span class="string">&quot;Could not open file &#39;{}&#39;&quot;</span>, <span class="ident">args</span>.<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>());
@@ -108,14 +113,19 @@
         })
     };
 
-    <span class="kw">let</span> <span class="ident">lexer</span> <span class="op">=</span> <span class="ident">Lexer::new</span>(
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lexer</span> <span class="op">=</span> <span class="ident">Lexer::new</span>(
         <span class="ident">stream</span>,
         <span class="kw">match</span> <span class="ident">args</span>.<span class="ident">filename</span> {
             <span class="prelude-val">None</span> =&gt; <span class="ident">String::from</span>(<span class="string">&quot;&lt;stdin&gt;&quot;</span>),
             <span class="prelude-val">Some</span>(<span class="ident">f</span>) =&gt; <span class="ident">f</span>,
         },
     );
-    <span class="macro">trace!</span>(<span class="string">&quot;Constructed lexer&quot;</span>);
+    <span class="macro">info!</span>(<span class="string">&quot;Constructed lexer&quot;</span>);
+    <span class="kw">let</span> <span class="ident">maybe_tokens</span> <span class="op">=</span> <span class="ident">lexer</span>.<span class="ident">make_tokens</span>();
+    <span class="kw">match</span> <span class="ident">maybe_tokens</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">tokens</span>) =&gt; <span class="macro">println!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">tokens</span>),
+        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="ident">handle_error</span>(<span class="ident">e</span>),
+    }
 }
 
 <span class="doccomment">/// Initialise logging.</span>
