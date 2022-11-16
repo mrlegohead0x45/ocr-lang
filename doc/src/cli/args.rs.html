@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates\cli\src\args.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>args.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../cli/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../cli/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../cli/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates\cli\src\args.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>args.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../cli/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../cli/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../cli/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -58,65 +58,65 @@
 <span id="58">58</span>
 <span id="59">59</span>
 <span id="60">60</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">clap::Parser</span>;
+</pre><pre class="rust"><code><span class="kw">use </span>clap::Parser;
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Parser</span>)]</span>
-<span class="attribute">#[<span class="ident">command</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;ocr-lang&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">command</span>(<span class="ident">author</span> <span class="op">=</span> <span class="string">&quot;mrlegohead0x45 &lt;mrlegohead0x45@gmail.com&gt;&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">command</span>(<span class="ident">version</span> <span class="op">=</span> <span class="macro">clap::crate_version!</span>())]</span>
-<span class="attribute">#[<span class="ident">command</span>(<span class="ident">about</span> <span class="op">=</span> <span class="macro">clap::crate_description!</span>())]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Args</span> {
-    <span class="doccomment">/// File to run.</span>
-    <span class="doccomment">/// If not given, defaults to stdin, which does not mean a REPL,</span>
-    <span class="doccomment">/// rather the code will be read from stdin all at once and then run.</span>
-    <span class="kw">pub</span> <span class="ident">filename</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+<span class="attribute">#[derive(Parser)]
+#[command(name = <span class="string">&quot;ocr-lang&quot;</span>)]
+#[command(author = <span class="string">&quot;mrlegohead0x45 &lt;mrlegohead0x45@gmail.com&gt;&quot;</span>)]
+#[command(version = <span class="macro">clap::crate_version!</span>())]
+#[command(about = <span class="macro">clap::crate_description!</span>())]
+</span><span class="kw">pub struct </span>Args {
+    <span class="doccomment">/// File to run.
+    /// If not given, defaults to stdin, which does not mean a REPL,
+    /// rather the code will be read from stdin all at once and then run.
+    </span><span class="kw">pub </span>filename: <span class="prelude-ty">Option</span>&lt;String&gt;,
 
-    <span class="doccomment">/// Level to log messages at</span>
-    <span class="attribute">#[<span class="ident">arg</span>(<span class="ident">value_enum</span>, <span class="ident">short</span>, <span class="ident">long</span>, <span class="ident">default_value_t</span> <span class="op">=</span> <span class="ident">LogLevel::Off</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">log_level</span>: <span class="ident">LogLevel</span>,
+    <span class="doccomment">/// Level to log messages at
+    </span><span class="attribute">#[arg(value_enum, short, long, default_value_t = LogLevel::Off)]
+    </span><span class="kw">pub </span>log_level: LogLevel,
 
-    <span class="doccomment">/// Specification to run the code at</span>
-    <span class="attribute">#[<span class="ident">arg</span>(<span class="ident">value_enum</span>, <span class="ident">short</span>, <span class="ident">long</span>, <span class="ident">default_value_t</span> <span class="op">=</span> <span class="ident">Specification::A2</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">spec</span>: <span class="ident">Specification</span>,
+    <span class="doccomment">/// Specification to run the code at
+    </span><span class="attribute">#[arg(value_enum, short, long, default_value_t = Specification::A2)]
+    </span><span class="kw">pub </span>spec: Specification,
 }
 
-<span class="doccomment">/// Enum for logging levels in args.</span>
-<span class="doccomment">/// This is needed, because we could `derive` [`clap::ValueEnum`] for</span>
-<span class="doccomment">/// [`log::LevelFilter`], but somebody already tried to submit a</span>
-<span class="doccomment">/// [PR](https://github.com/rust-lang/log/pull/524) for that and got rejected</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">clap::ValueEnum</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LogLevel</span> {
-    <span class="ident">Off</span>,
-    <span class="ident">Error</span>,
-    <span class="ident">Warn</span>,
-    <span class="ident">Info</span>,
-    <span class="ident">Debug</span>,
-    <span class="ident">Trace</span>,
+<span class="doccomment">/// Enum for logging levels in args.
+/// This is needed, because we could `derive` [`clap::ValueEnum`] for
+/// [`log::LevelFilter`], but somebody already tried to submit a
+/// [PR](https://github.com/rust-lang/log/pull/524) for that and got rejected
+</span><span class="attribute">#[derive(Clone, clap::ValueEnum)]
+</span><span class="kw">pub enum </span>LogLevel {
+    Off,
+    Error,
+    Warn,
+    Info,
+    Debug,
+    Trace,
 }
 
-<span class="kw">impl</span> <span class="ident">LogLevel</span> {
-    <span class="doccomment">/// Convert one-to-one to [`log::LevelFilter`]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_level_filter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">log::LevelFilter</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident"><span class="self">Self</span>::Off</span> =&gt; <span class="ident">log::LevelFilter::Off</span>,
-            <span class="ident"><span class="self">Self</span>::Error</span> =&gt; <span class="ident">log::LevelFilter::Error</span>,
-            <span class="ident"><span class="self">Self</span>::Warn</span> =&gt; <span class="ident">log::LevelFilter::Warn</span>,
-            <span class="ident"><span class="self">Self</span>::Info</span> =&gt; <span class="ident">log::LevelFilter::Info</span>,
-            <span class="ident"><span class="self">Self</span>::Debug</span> =&gt; <span class="ident">log::LevelFilter::Debug</span>,
-            <span class="ident"><span class="self">Self</span>::Trace</span> =&gt; <span class="ident">log::LevelFilter::Trace</span>,
+<span class="kw">impl </span>LogLevel {
+    <span class="doccomment">/// Convert one-to-one to [`log::LevelFilter`]
+    </span><span class="kw">pub fn </span>to_level_filter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; log::LevelFilter {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::Off =&gt; log::LevelFilter::Off,
+            <span class="self">Self</span>::Error =&gt; log::LevelFilter::Error,
+            <span class="self">Self</span>::Warn =&gt; log::LevelFilter::Warn,
+            <span class="self">Self</span>::Info =&gt; log::LevelFilter::Info,
+            <span class="self">Self</span>::Debug =&gt; log::LevelFilter::Debug,
+            <span class="self">Self</span>::Trace =&gt; log::LevelFilter::Trace,
         }
     }
 }
 
-<span class="doccomment">/// Enum for what specification to run the code at.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">clap::ValueEnum</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Specification</span> {
-    <span class="doccomment">/// Core language.</span>
-    <span class="ident">Gcse</span>,
-    <span class="doccomment">/// AS-Level. GCSE with pass-by-value and -reference</span>
-    <span class="ident">As</span>,
-    <span class="doccomment">/// A-Level. AS with OOP</span>
-    <span class="ident">A2</span>,
+<span class="doccomment">/// Enum for what specification to run the code at.
+</span><span class="attribute">#[derive(clap::ValueEnum, Clone)]
+</span><span class="kw">pub enum </span>Specification {
+    <span class="doccomment">/// Core language.
+    </span>Gcse,
+    <span class="doccomment">/// AS-Level. GCSE with pass-by-value and -reference
+    </span>As,
+    <span class="doccomment">/// A-Level. AS with OOP
+    </span>A2,
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="cli" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="cli" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

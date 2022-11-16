@@ -1,3 +1,3 @@
-(function() {var implementors = {};
-implementors["cli"] = [{"text":"impl ValueEnum for <a class=\"enum\" href=\"cli/args/enum.LogLevel.html\" title=\"enum cli::args::LogLevel\">LogLevel</a>","synthetic":false,"types":["cli::args::LogLevel"]},{"text":"impl ValueEnum for <a class=\"enum\" href=\"cli/args/enum.Specification.html\" title=\"enum cli::args::Specification\">Specification</a>","synthetic":false,"types":["cli::args::Specification"]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
+(function() {var implementors = {
+"cli":[["impl ValueEnum for <a class=\"enum\" href=\"cli/args/enum.LogLevel.html\" title=\"enum cli::args::LogLevel\">LogLevel</a>"],["impl ValueEnum for <a class=\"enum\" href=\"cli/args/enum.Specification.html\" title=\"enum cli::args::Specification\">Specification</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
