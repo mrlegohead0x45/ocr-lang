@@ -48,3 +48,7 @@ procedure_def ::= "procedure" one_ws identifier any_ws "(" any_ws (function_para
         any_ws eol
     "endclass"
 }
+
+if_stmt ::= "if" any_ws expression any_ws "then" any_ws eol
+    any_ws l2_code_stmt* any_ws eol
+    ("elseif")
