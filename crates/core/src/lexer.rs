@@ -5,12 +5,13 @@ use log::{trace, warn};
 use crate::error::Error;
 use crate::position::Position;
 use crate::token::Token;
+use crate::types::*;
 use crate::ErrorKind;
 
 /// Struct to transform input into [`Token`]s
 pub struct Lexer {
     /// Stream that we are reading our input from
-    stream: Box<dyn Read>,
+    stream: Reader,
     /// Character that we are currently processing
     current_char: Option<char>,
     /// Our position in the text we are lexing
@@ -18,9 +19,6 @@ pub struct Lexer {
     /// The file name that we are lexing
     filename: String,
 }
-
-/// Type alias for an empty [`Result`]
-type EmptyResult = Result<(), Error>;
 
 impl Lexer {
     /// Create a new [`Lexer`]
@@ -36,7 +34,7 @@ impl Lexer {
     /// Transform into [`Vec<Token>`].
     /// Returns `Err` if we could not parse the input stream.
     /// Access the [`Error`]'s `kind` field for more details
-    pub fn make_tokens(&mut self) -> Result<Vec<Token>, Error> {
+    pub fn make_tokens(&mut self) -> Result<Vec<Token>> {
         let mut tokens = Vec::new();
 
         loop {

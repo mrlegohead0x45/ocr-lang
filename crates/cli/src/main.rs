@@ -2,14 +2,14 @@ mod args;
 
 use std::{
     fs::File,
-    io::{stdin, stdout, Read},
+    io::{stdin, stdout},
     process,
 };
 
 use clap::Parser;
 use log::{error, info};
 
-use core::{Error, Lexer};
+use core::{types::Reader, Error, Lexer};
 
 use crate::args::LogLevel;
 
@@ -17,7 +17,7 @@ fn main() {
     let args = args::Args::parse();
     setup_logging(args.log_level).expect("Init logging failed");
 
-    let stream: Box<dyn Read> = if args.filename.is_none() {
+    let stream: Reader = if args.filename.is_none() {
         info!("Reading from stdin");
         Box::new(stdin())
     } else {
