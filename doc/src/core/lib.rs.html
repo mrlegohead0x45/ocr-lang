@@ -8,6 +8,19 @@
 <span id="8">8</span>
 <span id="9">9</span>
 <span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
 </pre><pre class="rust"><code><span class="attribute">#![allow(rustdoc::private_intra_doc_links)]
 
 </span><span class="kw">mod </span>error;
@@ -18,5 +31,18 @@
 <span class="kw">pub use </span>error::{Error, ErrorKind};
 <span class="kw">pub use </span>lexer::Lexer;
 <span class="kw">pub use </span>token::Token;
+
+<span class="kw">pub mod </span>types {
+    <span class="doccomment">//! Module for type aliases
+
+    /// Type alias for a [`Box`]ed [`std::io::Read`]
+    </span><span class="kw">pub type </span>Reader = Box&lt;<span class="kw">dyn </span>std::io::Read&gt;;
+
+    <span class="doccomment">/// Type alias of [`core::result::Result`] for our [`crate::Error`] type
+    </span><span class="kw">pub type </span><span class="prelude-ty">Result</span>&lt;T&gt; = ::core::result::Result&lt;T, <span class="kw">crate</span>::Error&gt;;
+
+    <span class="doccomment">/// Type alias for an empty [`Result`]
+    </span><span class="kw">pub type </span>EmptyResult = <span class="prelude-ty">Result</span>&lt;()&gt;;
+}
 </code></pre></div>
 </section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="core" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

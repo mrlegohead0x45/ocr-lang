@@ -104,8 +104,6 @@
 <span id="104">104</span>
 <span id="105">105</span>
 <span id="106">106</span>
-<span id="107">107</span>
-<span id="108">108</span>
 </pre><pre class="rust"><code><span class="kw">use </span>std::{io, io::Read};
 
 <span class="kw">use </span>log::{trace, warn};
@@ -113,12 +111,13 @@
 <span class="kw">use </span><span class="kw">crate</span>::error::Error;
 <span class="kw">use </span><span class="kw">crate</span>::position::Position;
 <span class="kw">use </span><span class="kw">crate</span>::token::Token;
+<span class="kw">use </span><span class="kw">crate</span>::types::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::ErrorKind;
 
 <span class="doccomment">/// Struct to transform input into [`Token`]s
 </span><span class="kw">pub struct </span>Lexer {
     <span class="doccomment">/// Stream that we are reading our input from
-    </span>stream: Box&lt;<span class="kw">dyn </span>Read&gt;,
+    </span>stream: Reader,
     <span class="doccomment">/// Character that we are currently processing
     </span>current_char: <span class="prelude-ty">Option</span>&lt;char&gt;,
     <span class="doccomment">/// Our position in the text we are lexing
@@ -126,9 +125,6 @@
     <span class="doccomment">/// The file name that we are lexing
     </span>filename: String,
 }
-
-<span class="doccomment">/// Type alias for an empty [`Result`]
-</span><span class="kw">type </span>EmptyResult = <span class="prelude-ty">Result</span>&lt;(), Error&gt;;
 
 <span class="kw">impl </span>Lexer {
     <span class="doccomment">/// Create a new [`Lexer`]
@@ -144,7 +140,7 @@
     <span class="doccomment">/// Transform into [`Vec&lt;Token&gt;`].
     /// Returns `Err` if we could not parse the input stream.
     /// Access the [`Error`]&#39;s `kind` field for more details
-    </span><span class="kw">pub fn </span>make_tokens(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;Token&gt;, Error&gt; {
+    </span><span class="kw">pub fn </span>make_tokens(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;Token&gt;&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>tokens = Vec::new();
 
         <span class="kw">loop </span>{

@@ -79,14 +79,14 @@
 
 <span class="kw">use </span>std::{
     fs::File,
-    io::{stdin, stdout, Read},
+    io::{stdin, stdout},
     process,
 };
 
 <span class="kw">use </span>clap::Parser;
 <span class="kw">use </span>log::{error, info};
 
-<span class="kw">use </span>core::{Error, Lexer};
+<span class="kw">use </span>core::{types::Reader, Error, Lexer};
 
 <span class="kw">use </span><span class="kw">crate</span>::args::LogLevel;
 
@@ -94,7 +94,7 @@
     <span class="kw">let </span>args = args::Args::parse();
     setup_logging(args.log_level).expect(<span class="string">&quot;Init logging failed&quot;</span>);
 
-    <span class="kw">let </span>stream: Box&lt;<span class="kw">dyn </span>Read&gt; = <span class="kw">if </span>args.filename.is_none() {
+    <span class="kw">let </span>stream: Reader = <span class="kw">if </span>args.filename.is_none() {
         <span class="macro">info!</span>(<span class="string">&quot;Reading from stdin&quot;</span>);
         Box::new(stdin())
     } <span class="kw">else </span>{
