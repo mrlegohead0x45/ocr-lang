@@ -1,3 +1,3 @@
 (function() {var implementors = {
-"core":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.65.0/core/cmp/trait.Eq.html\" title=\"trait core::cmp::Eq\">Eq</a> for <a class=\"struct\" href=\"core/position/struct.Position.html\" title=\"struct core::position::Position\">Position</a>"]]
+"lang_core":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.65.0/core/cmp/trait.Eq.html\" title=\"trait core::cmp::Eq\">Eq</a> for <a class=\"struct\" href=\"lang_core/position/struct.Position.html\" title=\"struct lang_core::position::Position\">Position</a>"]]
 };if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

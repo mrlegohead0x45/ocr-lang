@@ -1,1 +1,1 @@
-window.ALL_CRATES = ["cli","core"];
+window.ALL_CRATES = ["cli","lang_core"];
