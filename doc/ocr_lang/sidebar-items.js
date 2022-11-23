@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":[["ocr_lang_main","The main function for this program. Parses arguments, lexes tokens."],["setup_logging","Initialise logging. Copy-pasted from Fern docs"]],"mod":[["args",""],["error",""],["lexer",""],["position",""],["token",""]]};

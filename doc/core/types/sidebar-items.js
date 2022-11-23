@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"type":[["EmptyResult","Type alias for an empty [`Result`]"],["Reader","Type alias for a [`Box`]ed [`std::io::Read`]"],["Result","Type alias of [`core::result::Result`] for our [`crate::Error`] type"]]};
