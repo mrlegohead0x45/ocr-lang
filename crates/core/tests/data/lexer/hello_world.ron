@@ -1,0 +1,6 @@
+Ok([
+    Identifier("print"),
+    LParen,
+    StringLiteral("Hello, World!"),
+    RParen,
+])

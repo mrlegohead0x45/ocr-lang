@@ -7,3 +7,4 @@ mod token;
 
 pub use error::{Error, ErrorKind};
 pub use lexer::Lexer;
+pub use token::Token;

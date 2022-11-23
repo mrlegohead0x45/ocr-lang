@@ -1,11 +1,12 @@
 use std::{fmt::Display, io};
 
 use log::error;
+use serde::{Deserialize, Serialize};
 
 use crate::{position::Position, token::Token};
 
 /// Enum to represent the diferent kinds of errors
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub enum ErrorKind {
     FileNotFoundError,
     PermissionDeniedError,
@@ -13,6 +14,7 @@ pub enum ErrorKind {
 }
 
 /// Struct to represent an error
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub struct Error {
     pub kind: ErrorKind,
     pub msg: String,

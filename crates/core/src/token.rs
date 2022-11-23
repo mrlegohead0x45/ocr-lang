@@ -1,6 +1,8 @@
+use serde::{Deserialize, Serialize};
+
 /// Enum for tokens
 #[allow(unused)] // TODO: Use all of them!
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum Token {
     // Keywords
     Class,
