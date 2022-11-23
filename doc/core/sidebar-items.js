@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":[["ErrorKind","Enum to represent the diferent kinds of errors"]],"mod":[["error",""],["lexer",""],["position",""],["token",""]],"struct":[["Error","Struct to represent an error"],["Lexer","Struct to transform input into [`Token`]s"]]};
+window.SIDEBAR_ITEMS = {"enum":[["ErrorKind","Enum to represent the diferent kinds of errors"],["Token","Enum for tokens"]],"mod":[["error",""],["lexer",""],["position",""],["token",""]],"struct":[["Error","Struct to represent an error"],["Lexer","Struct to transform input into [`Token`]s"]]};

@@ -81,9 +81,13 @@
 <span id="81">81</span>
 <span id="82">82</span>
 <span id="83">83</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Enum for tokens
+<span id="84">84</span>
+<span id="85">85</span>
+</pre><pre class="rust"><code><span class="kw">use </span>serde::{Deserialize, Serialize};
+
+<span class="doccomment">/// Enum for tokens
 </span><span class="attribute">#[allow(unused)] </span><span class="comment">// TODO: Use all of them!
-</span><span class="attribute">#[derive(Debug, Clone)]
+</span><span class="attribute">#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 </span><span class="kw">pub enum </span>Token {
     <span class="comment">// Keywords
     </span>Class,

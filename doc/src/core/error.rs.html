@@ -69,14 +69,17 @@
 <span id="69">69</span>
 <span id="70">70</span>
 <span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
 </pre><pre class="rust"><code><span class="kw">use </span>std::{fmt::Display, io};
 
 <span class="kw">use </span>log::error;
+<span class="kw">use </span>serde::{Deserialize, Serialize};
 
 <span class="kw">use crate</span>::{position::Position, token::Token};
 
 <span class="doccomment">/// Enum to represent the diferent kinds of errors
-</span><span class="attribute">#[derive(Debug)]
+</span><span class="attribute">#[derive(Debug, Serialize, Deserialize, PartialEq)]
 </span><span class="kw">pub enum </span>ErrorKind {
     FileNotFoundError,
     PermissionDeniedError,
@@ -84,6 +87,7 @@
 }
 
 <span class="doccomment">/// Struct to represent an error
+</span><span class="attribute">#[derive(Debug, Serialize, Deserialize, PartialEq)]
 </span><span class="kw">pub struct </span>Error {
     <span class="kw">pub </span>kind: ErrorKind,
     <span class="kw">pub </span>msg: String,
