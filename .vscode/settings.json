@@ -2,5 +2,4 @@
     "files.associations": {
         "*.ebnf": "w3c-ebnf"
     },
-    "rust-analyzer.cargo.unsetTest": [] // Otherwise the tests in `core` would show as inactive
 }

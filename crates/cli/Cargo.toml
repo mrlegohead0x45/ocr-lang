@@ -10,4 +10,4 @@ chrono = "0.4.22"
 clap = { version = "4.0.17", features = ["derive", "cargo"] }
 fern = "0.6.1"
 log = "0.4.17"
-core = { path = "../core" }
+lang_core = { path = "../lang_core" }

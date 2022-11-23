@@ -116,8 +116,8 @@ version = "0.1.0"
 dependencies = [
  "chrono",
  "clap",
- "core",
  "fern",
+ "lang_core",
  "log",
 ]
 
@@ -129,16 +129,6 @@ checksum = "3538270d33cc669650c4b093848450d380def10c331d38c768e34cac80576e6e"
 dependencies = [
  "termcolor",
  "unicode-width",
-]
-
-[[package]]
-name = "core"
-version = "0.1.0"
-dependencies = [
- "log",
- "paste",
- "ron",
- "serde",
 ]
 
 [[package]]
@@ -246,6 +236,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49409df3e3bf0856b916e2ceaca09ee28e6871cf7d9ce97a692cacfdb2a25a47"
 dependencies = [
  "wasm-bindgen",
+]
+
+[[package]]
+name = "lang_core"
+version = "0.1.0"
+dependencies = [
+ "log",
+ "paste",
+ "ron",
+ "serde",
 ]
 
 [[package]]

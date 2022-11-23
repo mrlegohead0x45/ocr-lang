@@ -15,7 +15,7 @@ pub mod types {
     /// Type alias for a [`Box`]ed [`std::io::Read`]
     pub type Reader = Box<dyn std::io::Read>;
 
-    /// Type alias of [`core::result::Result`] for our [`crate::Error`] type
+    /// Type alias of [`Result`] for our [`crate::Error`] type
     pub type Result<T> = ::core::result::Result<T, crate::Error>;
 
     /// Type alias for an empty [`Result`]

@@ -5,7 +5,7 @@ use std::path::Path;
 use paste::paste;
 use ron::from_str;
 
-use core::{Error, Lexer, Token};
+use lang_core::{Error, Lexer, Token};
 
 macro_rules! make_test {
     ($name: expr) => {

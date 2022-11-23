@@ -9,7 +9,7 @@ use std::{
 use clap::Parser;
 use log::{error, info};
 
-use core::{types::Reader, Error, Lexer};
+use lang_core::{types::Reader, Error, Lexer};
 
 use crate::args::LogLevel;
 
