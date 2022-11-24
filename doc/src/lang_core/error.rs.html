@@ -66,11 +66,6 @@
 <span id="66">66</span>
 <span id="67">67</span>
 <span id="68">68</span>
-<span id="69">69</span>
-<span id="70">70</span>
-<span id="71">71</span>
-<span id="72">72</span>
-<span id="73">73</span>
 </pre><pre class="rust"><code><span class="kw">use </span>std::{fmt::Display, io};
 
 <span class="kw">use </span>log::error;
@@ -118,29 +113,24 @@
         pos: <span class="prelude-ty">Option</span>&lt;Position&gt;,
         filename: <span class="kw-2">&amp;</span>str,
     ) -&gt; Error {
-        <span class="kw">match </span>io_errorkind {
-            io::ErrorKind::NotFound | io::ErrorKind::PermissionDenied =&gt; {
-                <span class="kw">let </span>kind: ErrorKind;
-                <span class="kw">let </span>msg: <span class="kw-2">&amp;</span>str;
-                <span class="kw">match </span>io_errorkind {
-                    io::ErrorKind::NotFound =&gt; {
-                        kind = ErrorKind::FileNotFoundError;
-                        msg = <span class="string">&quot;File &#39;{}&#39; not found&quot;</span>;
-                    }
-                    io::ErrorKind::PermissionDenied =&gt; {
-                        kind = ErrorKind::PermissionDeniedError;
-                        msg = <span class="string">&quot;Could not open &#39;{}&#39;, permission denied&quot;
-                    </span>}
-                    <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(), <span class="comment">// because we match exhaustively in the outer match statement
-                </span>}
-                <span class="macro">error!</span>(<span class="string">&quot;{}&quot;</span>, msg.replace(<span class="string">&quot;{}&quot;</span>, filename));
-                Error {
-                    kind,
-                    msg: msg.replace(<span class="string">&quot;{}&quot;</span>, filename),
-                    pos,
-                }
-            }
+        <span class="kw">let </span>(kind, msg) = <span class="kw">match </span>io_errorkind {
+            io::ErrorKind::NotFound =&gt; (ErrorKind::FileNotFoundError, <span class="string">&quot;File &#39;{}&#39; not found&quot;</span>),
+            io::ErrorKind::PermissionDenied =&gt; (
+                ErrorKind::PermissionDeniedError,
+                <span class="string">&quot;Could not open &#39;{}&#39;, permission denied&quot;</span>,
+            ),
+
             <span class="kw">_ </span>=&gt; <span class="macro">todo!</span>(<span class="string">&quot;Return generic error&quot;</span>),
+        };
+
+        <span class="kw">let </span>formatted_message = msg.replace(<span class="string">&quot;{}&quot;</span>, filename);
+
+        <span class="macro">error!</span>(<span class="string">&quot;{}&quot;</span>, formatted_message);
+
+        Error {
+            kind,
+            msg: formatted_message,
+            pos,
         }
     }
 }
