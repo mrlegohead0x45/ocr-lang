@@ -45,29 +45,24 @@ impl Error {
         pos: Option<Position>,
         filename: &str,
     ) -> Error {
-        match io_errorkind {
-            io::ErrorKind::NotFound | io::ErrorKind::PermissionDenied => {
-                let kind: ErrorKind;
-                let msg: &str;
-                match io_errorkind {
-                    io::ErrorKind::NotFound => {
-                        kind = ErrorKind::FileNotFoundError;
-                        msg = "File '{}' not found";
-                    }
-                    io::ErrorKind::PermissionDenied => {
-                        kind = ErrorKind::PermissionDeniedError;
-                        msg = "Could not open '{}', permission denied"
-                    }
-                    _ => unreachable!(), // because we match exhaustively in the outer match statement
-                }
-                error!("{}", msg.replace("{}", filename));
-                Error {
-                    kind,
-                    msg: msg.replace("{}", filename),
-                    pos,
-                }
-            }
+        let (kind, msg) = match io_errorkind {
+            io::ErrorKind::NotFound => (ErrorKind::FileNotFoundError, "File '{}' not found"),
+            io::ErrorKind::PermissionDenied => (
+                ErrorKind::PermissionDeniedError,
+                "Could not open '{}', permission denied",
+            ),
+
             _ => todo!("Return generic error"),
+        };
+
+        let formatted_message = msg.replace("{}", filename);
+
+        error!("{}", formatted_message);
+
+        Error {
+            kind,
+            msg: formatted_message,
+            pos,
         }
     }
 }
